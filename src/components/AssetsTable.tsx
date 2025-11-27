@@ -44,6 +44,10 @@ interface AssetsTableProps {
 
   onAssetUpdate: () => void | Promise<void>;
 
+  setTableParams: Dispatch<SetStateAction<object>>;
+
+  tableParams: object;
+
 }
 
 
@@ -57,6 +61,10 @@ export default function AssetsTable({
   assets,
 
   onAssetUpdate,
+
+  setTableParams,
+
+  tableParams,
 
 }: AssetsTableProps) {
 
@@ -92,9 +100,9 @@ export default function AssetsTable({
 
   });
 
-  const [columnFilters, setColumnFilters] = useState<Record<string, unknown>>({});
+  const [columnFilters, setColumnFilters] = useState<Array<{ id: string; value: unknown }>>([]);
 
-  const [sortBy, setSortBy] = useState({ column: "", order: "asc" });
+  const [sortBy, setSortBy] = useState<Array<{ id: string; desc: boolean }>>([]);
 
 
 
@@ -226,7 +234,7 @@ export default function AssetsTable({
 
             <button
 
-              onClick={() => handleDeleteAssetCallback(info.row.original.id)}
+              onClick={() => handleDeleteAsset(info.row.original.id)}
 
               className="text-red-600 hover:text-red-900"
 
@@ -300,9 +308,9 @@ export default function AssetsTable({
 
     onGlobalFilterChange: setGlobalFilter as unknown as (value: string) => void,
 
-    onColumnFiltersChange: setColumnFilters as unknown as (value: Record<string, unknown>) => void,
+    onColumnFiltersChange: setColumnFilters,
 
-    onSortingChange: setSortBy as unknown as (value: typeof sortBy) => void,
+    onSortingChange: setSortBy,
 
   });
 

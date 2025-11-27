@@ -11,7 +11,7 @@ export default function AssetsPage() {
   const [assets, setAssets] = useState<Asset[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
-  const [tableParams, setTableParams] = useState({});
+  const [tableParams, setTableParams] = useState<object>({});
 
   const loadAssets = async (params = {}) => {
     try {
