@@ -56,7 +56,7 @@ export async function login(email: string, password: string) {
     localStorage.setItem("token", res.data.token);
     localStorage.setItem("user", JSON.stringify(res.data.user));
     return res.data;
-  } catch (error) {
+  } catch {
     // Fallback to mock authentication for testing
     console.log("Using mock authentication for testing...");
     const mockResponse = await mockLogin(email, password);
@@ -87,7 +87,7 @@ const mockFetchLoginLogs = async () => {
   return mockLoginLogs;
 };
 
-const mockEditAsset = async (id: number, updatedData: unknown) => {
+const mockEditAsset = async (id: number, updatedData: Record<string, unknown>) => {
   await new Promise(resolve => setTimeout(resolve, 500));
   const assetIndex = mockAssets.findIndex(asset => asset.id === id);
   if (assetIndex !== -1) {
@@ -107,7 +107,7 @@ export async function fetchAssets(params = {}) {
   }
 }
 
-export async function createAsset(assetData: any) {
+export async function createAsset(assetData: Record<string, unknown>) {
   try {
     const res = await api.post("/assets", assetData);
     return res.data;
@@ -125,7 +125,7 @@ export async function deleteAsset(id: string | number) {
   }
 }
 
-export async function editAsset(id: number, updatedData: unknown) {
+export async function editAsset(id: number, updatedData: Record<string, unknown>) {
   try {
     const res = await api.put(`/assets/${id}`, updatedData);
     return res.data;

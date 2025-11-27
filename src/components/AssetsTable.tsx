@@ -44,10 +44,6 @@ interface AssetsTableProps {
 
   onAssetUpdate: () => void | Promise<void>;
 
-  setTableParams?: Dispatch<SetStateAction<Record<string, unknown>>>;
-
-  tableParams?: Record<string, unknown>;
-
 }
 
 
@@ -61,10 +57,6 @@ export default function AssetsTable({
   assets,
 
   onAssetUpdate,
-
-  setTableParams,
-
-  tableParams,
 
 }: AssetsTableProps) {
 
@@ -105,12 +97,6 @@ export default function AssetsTable({
   const [sortBy, setSortBy] = useState({ column: "", order: "asc" });
 
 
-
-  const handleDeleteAssetCallback = async (id: string | number) => {
-
-    await handleDeleteAsset(id);
-
-  };
 
   const columns = useMemo(
 
@@ -284,7 +270,7 @@ export default function AssetsTable({
 
     ],
 
-    [handleDeleteAssetCallback]
+    []
 
   );
 
@@ -308,15 +294,15 @@ export default function AssetsTable({
 
       columnFilters,
 
-      sorting: sortBy as any,
+      sorting: sortBy as unknown as typeof sortBy,
 
     },
 
-    onGlobalFilterChange: setGlobalFilter as any,
+    onGlobalFilterChange: setGlobalFilter as unknown as (value: string) => void,
 
-    onColumnFiltersChange: setColumnFilters as any,
+    onColumnFiltersChange: setColumnFilters as unknown as (value: Record<string, unknown>) => void,
 
-    onSortingChange: setSortBy as any,
+    onSortingChange: setSortBy as unknown as (value: typeof sortBy) => void,
 
   });
 
