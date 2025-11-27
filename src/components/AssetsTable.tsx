@@ -30,8 +30,6 @@ import {
 
   MagnifyingGlassIcon,
 
-  FunnelIcon,
-
   ArrowDownTrayIcon,
 
   PencilIcon,
@@ -46,9 +44,9 @@ interface AssetsTableProps {
 
   onAssetUpdate: () => void | Promise<void>;
 
-  setTableParams?: Dispatch<SetStateAction<{}>>;
+  setTableParams?: Dispatch<SetStateAction<Record<string, unknown>>>;
 
-  tableParams?: {};
+  tableParams?: Record<string, unknown>;
 
 }
 
@@ -102,15 +100,17 @@ export default function AssetsTable({
 
   });
 
-  const [columnFilters, setColumnFilters] = useState({});
+  const [columnFilters, setColumnFilters] = useState<Record<string, unknown>>({});
 
   const [sortBy, setSortBy] = useState({ column: "", order: "asc" });
 
-  const [page, setPage] = useState(0);
-
-  const [pageSize, setPageSize] = useState(10);
 
 
+  const handleDeleteAssetCallback = async (id: string | number) => {
+
+    await handleDeleteAsset(id);
+
+  };
 
   const columns = useMemo(
 
@@ -240,7 +240,7 @@ export default function AssetsTable({
 
             <button
 
-              onClick={() => handleDeleteAsset(info.row.original.id)}
+              onClick={() => handleDeleteAssetCallback(info.row.original.id)}
 
               className="text-red-600 hover:text-red-900"
 
@@ -284,7 +284,7 @@ export default function AssetsTable({
 
     ],
 
-    []
+    [handleDeleteAssetCallback]
 
   );
 
@@ -308,19 +308,7 @@ export default function AssetsTable({
 
       columnFilters,
 
-      // tanstack sorting state shape may differ; keeping your original custom structure here
-
-      // and just passing it to state for now
-
       sorting: sortBy as any,
-
-      pagination: {
-
-        pageIndex: page,
-
-        pageSize: pageSize,
-
-      },
 
     },
 
@@ -408,7 +396,7 @@ export default function AssetsTable({
 
       await onAssetUpdate();
 
-    } catch (err) {
+    } catch {
 
       alert("Failed to add asset");
 
@@ -434,7 +422,7 @@ export default function AssetsTable({
 
       await onAssetUpdate();
 
-    } catch (err) {
+    } catch {
 
       alert("Failed to delete asset");
 
@@ -654,13 +642,7 @@ export default function AssetsTable({
 
           isLoading={isCreating}
 
-          // types here rely on your Asset shape; they worked before, so we keep them
-
-          // @ts-ignore if TS complains, but it likely won't based on your previous build
-
           newAsset={newAsset as unknown as Asset}
-
-          // @ts-ignore
 
           setNewAsset={setNewAsset as unknown as React.Dispatch<React.SetStateAction<Asset>>}
 
@@ -946,7 +928,7 @@ function AddAssetModal({
 
                 name="item_name"
 
-                value={newAsset.item_name as any}
+                value={(newAsset.item_name as unknown) as string}
 
                 onChange={handleChange}
 
@@ -972,7 +954,7 @@ function AddAssetModal({
 
                 name="quantity"
 
-                value={newAsset.quantity as any}
+                value={(newAsset.quantity as unknown) as string}
 
                 onChange={handleChange}
 
@@ -1000,7 +982,7 @@ function AddAssetModal({
 
                 name="inventory_number"
 
-                value={newAsset.inventory_number as any}
+                value={(newAsset.inventory_number as unknown) as string}
 
                 onChange={handleChange}
 
@@ -1024,7 +1006,7 @@ function AddAssetModal({
 
                 name="room_number"
 
-                value={newAsset.room_number as any}
+                value={(newAsset.room_number as unknown) as string}
 
                 onChange={handleChange}
 
@@ -1048,7 +1030,7 @@ function AddAssetModal({
 
                 name="floor_number"
 
-                value={newAsset.floor_number as any}
+                value={(newAsset.floor_number as unknown) as string}
 
                 onChange={handleChange}
 
@@ -1072,7 +1054,7 @@ function AddAssetModal({
 
                 name="building_block"
 
-                value={newAsset.building_block as any}
+                value={(newAsset.building_block as unknown) as string}
 
                 onChange={handleChange}
 
@@ -1096,7 +1078,7 @@ function AddAssetModal({
 
                 name="year_of_purchase"
 
-                value={newAsset.year_of_purchase as any}
+                value={(newAsset.year_of_purchase as unknown) as string}
 
                 onChange={handleChange}
 
@@ -1120,7 +1102,7 @@ function AddAssetModal({
 
                 name="department_origin"
 
-                value={newAsset.department_origin as any}
+                value={(newAsset.department_origin as unknown) as string}
 
                 onChange={handleChange}
 
@@ -1150,7 +1132,7 @@ function AddAssetModal({
 
                 name="remarks"
 
-                value={newAsset.remarks as any}
+                value={(newAsset.remarks as unknown) as string}
 
                 onChange={handleChange}
 

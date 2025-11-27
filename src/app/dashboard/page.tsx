@@ -5,7 +5,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import Layout from "@/components/Layout";
 import { fetchAssets, fetchUsers, fetchLoginLogs } from "@/lib/api";
-import { Asset, User, LoginLog } from "@/types";
+import { LoginLog } from "@/types";
 import { 
   CubeIcon, 
   UsersIcon, 
@@ -90,7 +90,7 @@ export default function DashboardPage() {
           <div>
             <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
             <p className="mt-1 text-sm text-gray-500">
-              Welcome back, {user?.name}! Here's an overview of your system.
+              Welcome back, {user?.name}! Here&rsquo;s an overview of your system.
             </p>
           </div>
 

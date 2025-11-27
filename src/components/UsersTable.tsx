@@ -14,7 +14,6 @@ import { addUser, resetUserPassword, deleteUser } from "@/lib/api";
 import {
   MagnifyingGlassIcon,
   PlusIcon,
-  PencilIcon,
   TrashIcon,
   KeyIcon,
 } from "@heroicons/react/24/outline";

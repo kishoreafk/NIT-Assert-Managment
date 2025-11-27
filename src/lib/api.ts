@@ -87,11 +87,11 @@ const mockFetchLoginLogs = async () => {
   return mockLoginLogs;
 };
 
-const mockEditAsset = async (id: number, updatedData: any) => {
+const mockEditAsset = async (id: number, updatedData: unknown) => {
   await new Promise(resolve => setTimeout(resolve, 500));
   const assetIndex = mockAssets.findIndex(asset => asset.id === id);
   if (assetIndex !== -1) {
-    mockAssets[assetIndex] = { ...mockAssets[assetIndex], ...updatedData };
+    mockAssets[assetIndex] = { ...mockAssets[assetIndex], ...(updatedData as Record<string, unknown>) };
   }
   return mockAssets[assetIndex];
 };
@@ -101,7 +101,7 @@ export async function fetchAssets(params = {}) {
   try {
     const res = await api.get("/assets", { params });
     return res.data;
-  } catch (error) {
+  } catch {
     console.log("Using mock assets data for testing...");
     return await mockFetchAssets();
   }
@@ -116,7 +116,7 @@ export async function createAsset(assetData: any) {
   }
 }
 
-export async function deleteAsset(id: number) {
+export async function deleteAsset(id: string | number) {
   try {
     const res = await api.delete(`/assets/${id}`);
     return res.data;
@@ -125,7 +125,7 @@ export async function deleteAsset(id: number) {
   }
 }
 
-export async function editAsset(id: number, updatedData: any) {
+export async function editAsset(id: number, updatedData: unknown) {
   try {
     const res = await api.put(`/assets/${id}`, updatedData);
     return res.data;
@@ -155,7 +155,7 @@ export async function addUser(userData: {
   try {
     const res = await api.post("/users", userData);
     return res.data;
-  } catch (error) {
+  } catch {
     console.log("Using mock user creation for testing...");
     await new Promise(resolve => setTimeout(resolve, 500));
     const newUser = {
@@ -176,7 +176,7 @@ export async function resetUserPassword(userId: number, newPassword: string) {
       password: newPassword,
     });
     return res.data;
-  } catch (error) {
+  } catch {
     console.log("Using mock password reset for testing...");
     await new Promise(resolve => setTimeout(resolve, 500));
     return { success: true, message: "Password reset successfully" };
@@ -187,7 +187,7 @@ export async function deleteUser(userId: number) {
   try {
     const res = await api.delete(`/users/${userId}`);
     return res.data;
-  } catch (error) {
+  } catch {
     console.log("Using mock user deletion for testing...");
     await new Promise(resolve => setTimeout(resolve, 500));
     const userIndex = mockUsers.findIndex(user => user.id === userId);
@@ -203,7 +203,7 @@ export async function fetchLoginLogs() {
   try {
     const res = await api.get("/logs");
     return res.data;
-  } catch (error) {
+  } catch {
     console.log("Using mock login logs data for testing...");
     return await mockFetchLoginLogs();
   }
